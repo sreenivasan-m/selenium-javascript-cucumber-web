@@ -1,0 +1,29 @@
+{
+    "name": "selenium-webdriver-cucumber-web-application",
+    "version": "0.1.0",
+    "readme": "Steps to configuration",
+    "description": "Selenium webdriver using cucumber-js for web automation",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "scripts": {
+        "test": "cucumber-js --format json:reports/cucumber_report.json",
+        "report": "node utils/report.js",
+        "eslint": "npx eslint features/ utils/ selenium/",
+        "format": "prettier --write selenium/"
+    },
+    "devDependencies": {
+        "@cucumber/cucumber": "^7.3.2",
+        "assert": "^2.0.0",
+        "eslint": "^8.35.0",
+        "prettier": "2.8.4"
+    },
+    "dependencies": {
+        "chromedriver": "^110.0.0",
+        "cucumber-html-reporter": "^5.5.0",
+        "dotenv": "^16.0.3",
+        "js-yaml": "^4.1.0",
+        "selenium-webdriver": "^4.8.1"
+    }
+}
