@@ -1,8 +1,4 @@
-DUB: Dublin
-STN: STN
-UserOneName: UserOne
-UserOneSurname: Selenium
-UserTwoName: UserTwo
-UserTwoSurname: Selenium
-ChildName: Child
-ChildSurname: Selenium
+SeleniumPage:
+  homeSelenium: Selenium WebDriver
+AboutPage:
+  aboutSelenium: About Selenium

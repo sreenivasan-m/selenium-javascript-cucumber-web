@@ -11,7 +11,7 @@
         "test": "cucumber-js --format json:reports/cucumber_report.json",
         "report": "node utils/report.js",
         "eslint": "npx eslint features/ utils/ selenium/",
-        "format": "prettier --write selenium/"
+        "format": "prettier --write selenium/ features/ utils/"
     },
     "devDependencies": {
         "@cucumber/cucumber": "^7.3.2",
