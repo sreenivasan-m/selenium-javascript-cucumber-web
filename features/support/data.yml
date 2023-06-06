@@ -1,0 +1,13 @@
+seleniumPage:
+  homeSelenium: Selenium WebDriver
+aboutPage:
+  aboutSelenium: About Selenium
+
+searchObj:
+  searchText_text: { name: 'q' }
+  selectSelenium_link: { xpath: "//h3[contains(.,'Selenium')]" }
+  seleniumWebdriver_text: { xpath: "//h4[contains(.,'Selenium WebDriver')]" }
+seleniumObj:
+  selectMenu_dropDown: { xpath: "//a[@id='navbarDropdown']" }
+  selectAboutPage_link: { linkText: 'About Selenium' }
+  seleniumAbout_text: { xpath: "//h1[contains(.,'About Selenium')]" }

@@ -5,8 +5,8 @@ class reader {
   /**
    * Read testData from yml file
    */
-  testDataReader() {
-    let yamlFile = fs.readFileSync(require.resolve('../testData.yml'), {
+  dataReader() {
+    let yamlFile = fs.readFileSync(require.resolve('./data.yml'), {
       encoding: 'utf8',
     });
     let loadedYaml = yaml.load(yamlFile);

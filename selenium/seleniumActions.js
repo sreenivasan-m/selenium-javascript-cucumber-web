@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const appURL = process.env.testURL;
-var assert = require('assert');
+const assert = require('assert');
 
 const { until, Key } = require('selenium-webdriver');
 
@@ -13,10 +13,10 @@ class seleniumActions {
    * Launch the browser
    */
   async openUrl() {
+    await this.setMaximizeWindow();
     await this.driver.get(appURL).catch((error) => {
       throw error;
     });
-    await this.setMaximizeWindow();
   }
 
   /*
@@ -30,14 +30,12 @@ class seleniumActions {
    * Enter text
    * @param {*} locator Object, i.e.  { xpath: "//*[@id='Any']" } or WebElement
    */
-  async enterText(locator, text, secs = 5) {
-    await this.setImplicitTimeout(secs);
+  async enterText(locator, text) {
     const element = await this.elementFinder(locator);
     await element.click();
     await element.clear();
     await element.sendKeys(text);
     await element.sendKeys(Key.ENTER);
-    await this.setDefaultImplicitTimeout();
   }
 
   /*
@@ -45,9 +43,8 @@ class seleniumActions {
    * @param {*} locator Object, i.e.  { xpath: "//*[@id='Any']" } or WebElement
    */
   async elementFinder(locator) {
-    // TO DO: Added just for stability run, will be removed later
-    await this.driver.sleep(1000);
     const element = this.driver.findElement(locator);
+    await this.highlighter(element);
     return element;
   }
 
@@ -71,16 +68,9 @@ class seleniumActions {
    * @param {*} locator Object, i.e.  { xpath: "//*[@id='Any']" } or WebElement
    * * @param {*} time
    */
-  async isDisplayed(locator, time = 20) {
-    await this.setImplicitTimeout(time);
-    try {
-      const element = await this.elementFinder(locator);
-      return element.isDisplayed();
-    } catch (error) {
-      return false;
-    } finally {
-      await this.setDefaultImplicitTimeout();
-    }
+  async isDisplayed(locator) {
+    const element = await this.elementFinder(locator);
+    return element.isDisplayed();
   }
 
   /*
@@ -110,12 +100,10 @@ class seleniumActions {
    * @param {*} locator Object, i.e.  { xpath: "//*[@id='Any']" } or WebElement
    * * @param {*} time
    */
-  async click(locator, time = 20) {
-    await this.setImplicitTimeout(time);
+  async click(locator) {
     await this.waitUntil(locator);
     const element = await this.elementFinder(locator);
     await element.click();
-    await this.setDefaultImplicitTimeout();
   }
 
   /*
@@ -127,6 +115,57 @@ class seleniumActions {
     await this.driver.wait(
       until.elementIsVisible(await this.elementFinder(locator), time * 1000),
     );
+  }
+
+  /*
+   * Wait for element
+   * @param {*} locator Object, i.e.  { xpath: "//*[@id='Any']" } or WebElement
+   * * @param {*} time
+   */
+  async wait(time = 30) {
+    await this.driver.sleep(time);
+  }
+
+  /*
+   * Element highlighter
+   * @param {*} locator Object, i.e.  { xpath: "//*[@id='Any']" } or WebElement
+   */
+  async highlighter(element) {
+    const actions = this.driver.actions({ async: true });
+    await actions.move({ origin: element }).perform();
+    await this.driver.executeScript(
+      "arguments[0].setAttribute('style', 'border:2px solid red; background:yellow')",
+      element,
+    );
+  }
+
+  /*
+   * Switching between the tabs
+   * @param {*} locator Object, i.e.  { xpath: "//*[@id='Any']" } or WebElement
+   */
+  async switchToNewTab(element) {
+    //Store the ID of the original window
+    const originalWindow = await this.driver.getWindowHandle();
+
+    //Check we don't have other windows open already
+    assert((await this.driver.getAllWindowHandles()).length === 1);
+
+    //Click the link which opens in a new window
+    await this.click(element);
+
+    //Wait for the new window or tab
+    await this.driver.wait(
+      async () => (await this.driver.getAllWindowHandles()).length === 2,
+      10000,
+    );
+
+    //Loop through until we find a new window handle
+    const windows = await this.driver.getAllWindowHandles();
+    windows.forEach(async (handle) => {
+      if (handle !== originalWindow) {
+        await this.driver.switchTo().window(handle);
+      }
+    });
   }
 }
 

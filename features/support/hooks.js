@@ -1,8 +1,11 @@
 /* global driver */ 'use strict';
 
 const { Before, After, AfterStep } = require('@cucumber/cucumber');
+const browserFactory = require('../../selenium/browserFactory');
 
-Before(function () {});
+Before(async function () {
+  global.driver = await new browserFactory().startBrowser();
+});
 
 AfterStep(function () {
   const cucumber = this;
