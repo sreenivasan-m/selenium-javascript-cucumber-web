@@ -52,8 +52,9 @@ By default the way the scripts are set up is to generate html reports right afte
 ## Validation
 
 1) Sample project created using selenium-webdriver and cucumber for web automation
-2) All the step defs verified with assertions, also until function is used it will make sure to check all the elements in the page objects.
-3) Execution html report attached in the repo, also below for the reference
+2) All the step defs verified with assertions, until function is used it will make sure to check all the elements in the page objects.
+3) Execution html report attached
 4) Page object model implemented
-5) Utlities: Selenium action class implemented for navigations, Used yml to fetch testDatat, Browserfactory implemented for browsers.
+5) Utlities: Selenium action class implemented for navigations, Used yml to fetch testdata and locators, Browserfactory implemented for browsers.
 6) Screenshot attachment implemented for AllSteps, this can modified for failures cases (refer the screenshot)  
+![image](https://github.com/sreenivasan-m/selenium-javascript-cucumber-web/assets/28147037/49806fff-64b4-473e-81a2-609f62655f62)
